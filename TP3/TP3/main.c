@@ -33,13 +33,13 @@ int main(void)
 	
 	uint8_t h_t[4]={0,0,0,0};
 	uint8_t cadenaT[3],cadenaH[3];
-	uint8_t flagCheck=0;
+	uint8_t flagCheck=0,flagFin=0;
 	uint8_t msg[100];
 	while (1) 
     {
 		flagCheck=leer(h_t);
 	
-		if(flagCheck){
+		if(flagCheck && !flagFin){
 			sprintf(cadenaT, "%d", h_t[2]);			//transformo los enteros a cadena de caracteres
 			sprintf(cadenaH, "%d", h_t[0]);			
 			strcpy(msg, "TEMP: ");					// uso strcpy para iniciar el mensaje
@@ -49,13 +49,21 @@ int main(void)
 			strcat(msg, "% FECHA: - HORA: -\r\n");	//despues se va a tener que poner la fecha y hora con el otro periferico q usa i2c
 			SerialPort_Send_String(msg);			//mando el mensaje a la terminal
 		}
-		else
+		else if(!flagFin)
 			SerialPort_Send_String("Error en la transmision. (Fallo el Checksum)\r\n");
 		
 		
-		if(contador == 3){
-			SerialPort_Send_String("Se finalizó la medicion. Adios :) \r\n");  // Envío el string de despedida
-			while(1);
+		if(contador > 3 ){
+			if(!flagFin){
+				SerialPort_Send_String("Se finalizó la medicion. \r\n");
+				flagFin=1;
+				contador=0;
+				}
+			else{
+				SerialPort_Send_String("Se reanudó la medicion. \r\n");
+				flagFin=0;
+				contador=0;	
+			}
 		}
 
 		_delay_ms(2000);
