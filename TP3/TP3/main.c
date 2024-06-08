@@ -27,16 +27,14 @@ int main(void)
 	while (1) 
     {
 		flagCheck=leer(h_t);
-		/*
 		if(flagCheck){
 			LCDclr();
 			LCDGotoXY(0,0);
 			LCDescribeDato(h_t[0],2);
 			LCDGotoXY(0,1);
 			LCDescribeDato(h_t[2],2);
-		}*/
-
+		}
 		_delay_ms(2000);
-    }
+	}
 }
 
