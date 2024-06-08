@@ -32,11 +32,9 @@ uint8_t leer(uint8_t* res){
 	while(salidaAct != 1){
 		salidaAct = (PINC & (1 << PINC0));
 	}
+	salidaAnt = 1;
 	for(i = 0; i<32; i++){
 		_delay_us(50);
-		PORTC |= (1 << PINC3);
-		_delay_us(1);
-		PORTC &= ~(1 << PINC3);
 		aux |= ((PINC & (1 << PINC0)))<<(7-posAct);
 		if(++posAct == 8){
 			res[numAct++] = aux;
@@ -47,7 +45,9 @@ uint8_t leer(uint8_t* res){
 			salidaAnt = salidaAct;
 			salidaAct = (PINC & (1 << PINC0));
 		}
-
+		PORTC |= (1 << PINC3);
+		_delay_us(1);
+		PORTC &= ~(1 << PINC3);
 		salidaAnt = 1;
 	}
 	for(i = 0; i < 8; i++){

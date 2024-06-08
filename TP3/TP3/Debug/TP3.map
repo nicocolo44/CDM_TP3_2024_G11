@@ -260,7 +260,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x786
+.text           0x00000000      0x788
  *(.vectors)
  .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
@@ -351,43 +351,43 @@ END GROUP
  .text.inicializar_sensor
                 0x000000d6       0x3e dht11.o
                 0x000000d6                inicializar_sensor
- .text.leer     0x00000114      0x10c dht11.o
+ .text.leer     0x00000114      0x10e dht11.o
                 0x00000114                leer
  .text.LCDsendChar
-                0x00000220      0x130 lcd.o
-                0x00000220                LCDsendChar
+                0x00000222      0x130 lcd.o
+                0x00000222                LCDsendChar
  .text.LCDsendCommand
-                0x00000350      0x128 lcd.o
-                0x00000350                LCDsendCommand
- .text.LCDclr   0x00000478        0x8 lcd.o
-                0x00000478                LCDclr
- .text.LCDhome  0x00000480        0x8 lcd.o
-                0x00000480                LCDhome
+                0x00000352      0x128 lcd.o
+                0x00000352                LCDsendCommand
+ .text.LCDclr   0x0000047a        0x8 lcd.o
+                0x0000047a                LCDclr
+ .text.LCDhome  0x00000482        0x8 lcd.o
+                0x00000482                LCDhome
  .text.LCDGotoXY
-                0x00000488       0x1e lcd.o
-                0x00000488                LCDGotoXY
+                0x0000048a       0x1e lcd.o
+                0x0000048a                LCDGotoXY
  .text.LCDdefinechar
-                0x000004a6       0x54 lcd.o
-                0x000004a6                LCDdefinechar
- .text.LCDinit  0x000004fa       0xfe lcd.o
-                0x000004fa                LCDinit
+                0x000004a8       0x54 lcd.o
+                0x000004a8                LCDdefinechar
+ .text.LCDinit  0x000004fc       0xfe lcd.o
+                0x000004fc                LCDinit
  .text.LCDescribeDato
-                0x000005f8       0xc0 lcd.o
-                0x000005f8                LCDescribeDato
- .text.main     0x000006b8       0x7a main.o
-                0x000006b8                main
+                0x000005fa       0xc0 lcd.o
+                0x000005fa                LCDescribeDato
+ .text.main     0x000006ba       0x7a main.o
+                0x000006ba                main
  .text.libgcc.div
-                0x00000732       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
-                0x00000732                _div
-                0x00000732                __divmodhi4
+                0x00000734       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
+                0x00000734                _div
+                0x00000734                __divmodhi4
  .text.libgcc.div
-                0x0000075a       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
-                0x0000075a                __udivmodhi4
-                0x00000782                . = ALIGN (0x2)
+                0x0000075c       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
+                0x0000075c                __udivmodhi4
+                0x00000784                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000782        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000782                _exit
-                0x00000782                exit
+ .fini9         0x00000784        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000784                _exit
+                0x00000784                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -406,11 +406,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000782        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000784        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000786                _etext = .
+                0x00000788                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000786
+.data           0x00800100        0x0 load address 0x00000788
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -428,8 +428,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x00000786                __data_load_start = LOADADDR (.data)
-                0x00000786                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000788                __data_load_start = LOADADDR (.data)
+                0x00000788                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800100        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -528,12 +528,12 @@ END GROUP
  .debug_abbrev  0x000006e5      0x251 lcd.o
  .debug_abbrev  0x00000936      0x14c main.o
 
-.debug_line     0x00000000      0xbbb
+.debug_line     0x00000000      0xbb7
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_line    0x00000134      0x25f dht11.o
- .debug_line    0x00000393      0x6c2 lcd.o
- .debug_line    0x00000a55      0x166 main.o
+ .debug_line    0x00000134      0x25b dht11.o
+ .debug_line    0x0000038f      0x6c2 lcd.o
+ .debug_line    0x00000a51      0x166 main.o
 
 .debug_frame    0x00000000      0x2c4
  *(.debug_frame)
@@ -551,11 +551,11 @@ END GROUP
  .debug_str     0x000005a9       0x1b main.o
                                 0x1fb (size before relaxing)
 
-.debug_loc      0x00000000     0x12bd
+.debug_loc      0x00000000     0x12b3
  *(.debug_loc)
- .debug_loc     0x00000000      0x401 dht11.o
- .debug_loc     0x00000401      0xe19 lcd.o
- .debug_loc     0x0000121a       0xa3 main.o
+ .debug_loc     0x00000000      0x3f7 dht11.o
+ .debug_loc     0x000003f7      0xe19 lcd.o
+ .debug_loc     0x00001210       0xa3 main.o
 
 .debug_macinfo
  *(.debug_macinfo)
