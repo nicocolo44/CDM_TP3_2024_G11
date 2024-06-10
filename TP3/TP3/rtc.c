@@ -51,13 +51,13 @@ void RTC_GetDateTime(rtc_t *rtc)
 	i2c_start();                            // Start I2C communication
 	i2c_write(C_Ds3231ReadMode_U8);            // connect to DS1307(Read mode) by sending its ID
 	
-	rtc->sec = i2c_read(1);                // read second and return Positive ACK
-	rtc->min = i2c_read(1);                 // read minute and return Positive ACK
+	rtc->sec = i2c_read(0);                // read second and return Positive ACK
+	rtc->min = i2c_read(0);                 // read minute and return Positive ACK
 	rtc->hour= i2c_read(1);               // read hour and return Negative/No ACK
 	rtc->weekDay = i2c_read(1);           // read weekDay and return Positive ACK
-	rtc->date= i2c_read(1);              // read Date and return Positive ACK
-	rtc->month=i2c_read(1);            // read Month and return Positive ACK
-	rtc->year =i2c_read(0);             // read Year and return Negative/No ACK
+	rtc->date= i2c_read(0);              // read Date and return Positive ACK
+	rtc->month=i2c_read(0);            // read Month and return Positive ACK
+	rtc->year =i2c_read(1);             // read Year and return Negative/No ACK
 	
 	i2c_stop();                              // Stop I2C communication after reading the Date
 }

@@ -9,10 +9,11 @@
 #ifndef RTC_H_
 #define RTC_H_
 
-#define C_Ds3231ReadMode_U8   0xD1  // DS3231 ID
-#define C_Ds3231WriteMode_U8  0xD0  // DS3231 ID
+#define C_Ds3231ControlRegAddress_U8 0x68
+#define C_Ds3231ReadMode_U8   (C_Ds3231ControlRegAddress_U8 << 1) | 0x01
+#define C_Ds3231WriteMode_U8  (C_Ds3231ControlRegAddress_U8 << 1)
 #define C_Ds3231SecondRegAddress_U8 0x00	//defines the register address for the seconds value in the DS3231 RTC module
-#define C_Ds3231ControlRegAddress_U8 0x0E	//defines the register address for the control register in the DS3231 RTC module
+	//defines the register address for the control register in the DS3231 RTC module
 //Everybody say gracias ChatGPT por las ultimas 2 direcciones!!!!
 
 typedef struct
