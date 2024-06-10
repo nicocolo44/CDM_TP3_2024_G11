@@ -12,7 +12,7 @@
 #include <stdio.h>
 #define F_CPU 16000000UL
 #include <util/delay.h>
-#include <time.h>
+#include <string.h>
 #include "dht11.h"
 #include "rtc.h"
 #define BR9600 (0x67)	// 0x67=103 configura BAUDRATE=9600 a 16MHz
@@ -20,38 +20,63 @@
 //volatile static uint8_t contador=0;
 volatile uint8_t RX_Buffer=0;		// Variables que se modificara cuando se atienda la interrupcion
 volatile rtc_t hora;
-volatile time_t horact;
+volatile uint8_t flagFin=0;
 
-uint8_t* convNumaCar(uint8_t);
+uint8_t obtenerMes(const char *mes) {
+	if (strcmp(mes, "Jan") == 0) return 1;
+	if (strcmp(mes, "Feb") == 0) return 2;
+	if (strcmp(mes, "Mar") == 0) return 3;
+	if (strcmp(mes, "Apr") == 0) return 4;
+	if (strcmp(mes, "May") == 0) return 5;
+	if (strcmp(mes, "Jun") == 0) return 6;
+	if (strcmp(mes, "Jul") == 0) return 7;
+	if (strcmp(mes, "Aug") == 0) return 8;
+	if (strcmp(mes, "Sep") == 0) return 9;
+	if (strcmp(mes, "Oct") == 0) return 10;
+	if (strcmp(mes, "Nov") == 0) return 11;
+	if (strcmp(mes, "Dec") == 0) return 12;
+	return 0; // En caso de error
+}
+
+void obtenerFechaHoraCompilacion(rtc_t *hora){
+	uint16_t ano;
+	// _DATE_ y _TIME_ son macros predefinidos por el compilador
+	char date[] = __DATE__; // "Jun 10 2024"
+	char time[] = __TIME__; // "14:30:59"
+
+	// Descomponer la fecha
+	char mes_str[4];
+	sscanf(date, "%s %d %lu ", mes_str, &(hora->date), &ano);
+	//SerialPort_Send_String(date);
+	//SerialPort_Send_String("\n");
+	(hora->year)= ano%100;
+	hora->month = obtenerMes(mes_str);
+	
+	// Descomponer la hora
+	sscanf(time, "%hhu:%hhu:%hhu", &(hora->hour), &(hora->min), &(hora->sec));
+}
+
 
 
 int main(void)
 {	
-	horact=time(NULL);
-	struct tm *localTime = localtime(&horact);
-	// Step 3: Access the components of the struct tm object
-	hora.year = (localTime->tm_year + 1900)%100; // tm_year is the number of years since 1900
-	hora.month = localTime->tm_mon + 1;    // tm_mon is 0-based, so add 1
-	hora.date = localTime->tm_mday;
-	hora.weekDay = 0;
- 	hora.hour = localTime->tm_hour;
-	hora.min = localTime->tm_min;
-	hora.sec = localTime->tm_sec;
-
-	RTC_Init();
-	RTC_SetDateTime(&hora);
 	
-    SerialPort_Init(BR9600); 		// Inicializo formato 8N1 y BAUDRATE = 9600bps
-    SerialPort_TX_Enable();			// Activo el Transmisor del Puerto Serie (1<<TXEN0) en UCSR0B
-    SerialPort_RX_Enable();			// Activo el Receptor del Puerto Serie	(1<<RXEN0) en UCSR0B
+	SerialPort_Init(BR9600); 		// Inicializo formato 8N1 y BAUDRATE = 9600bps
+	SerialPort_TX_Enable();			// Activo el Transmisor del Puerto Serie (1<<TXEN0) en UCSR0B
+	SerialPort_RX_Enable();			// Activo el Receptor del Puerto Serie	(1<<RXEN0) en UCSR0B
 	SerialPort_RX_Interrupt_Enable();	// Activo Interrupción de recepcion.
 	SerialPort_Send_String("Medicion de temperatura y humedad. Presionando 's' o 'S' se finaliza el programa de medicion.\r\n");   // Envío el mensaje de Bienvenida
 
+	obtenerFechaHoraCompilacion(&hora);
+	
+	RTC_Init();
+	RTC_SetDateTime(&hora);
+	
 	sei();
 	
 	uint8_t h_t[4]={0,0,0,0};
 	uint8_t cadenaT[3],cadenaH[3],fechayhora[100];
-	uint8_t flagCheck=0,flagFin=0;
+	uint8_t flagCheck=0;
 	uint8_t msg[100];
 	while (1) 
     {
@@ -71,28 +96,24 @@ int main(void)
 		}
 		else if(!flagFin)
 			SerialPort_Send_String("Error en la transmision. (Fallo el Checksum)\r\n");
-		
-		
-		if((RX_Buffer == 's') || (RX_Buffer == 'S')){
-			if(!flagFin){
-				SerialPort_Send_String("Se finalizó la medicion. \r\n");
-				flagFin=1;
-				//contador=0;
-				RX_Buffer=0;
-				}
-			else{
-				SerialPort_Send_String("Se reanudó la medicion. \r\n");
-				flagFin=0;
-				//contador=0;
-				RX_Buffer=0;	
-			}
-		}
 
 		_delay_ms(2000);
 	}
 }
 ISR(USART_RX_vect){
 	RX_Buffer = UDR0; //la lectura del UDR borra flag RXC
-		
+	if((RX_Buffer == 's') || (RX_Buffer == 'S')){
+		if(!flagFin){
+			SerialPort_Send_String("Se finalizó la medicion. \r\n");
+			flagFin=1;
+			//contador=0;
+		}
+		else{
+			SerialPort_Send_String("Se reanudó la medicion. \r\n");
+			flagFin=0;
+			//contador=0;
+		}
+	}
+	RX_Buffer=0;
 }
 

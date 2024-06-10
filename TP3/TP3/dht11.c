@@ -9,7 +9,6 @@
 #include <stdio.h>
 #define F_CPU 16000000UL
 #include <util/delay.h>
-#include "lcd.h"//asdasdasdsa
 #include "dht11.h"
 
 
