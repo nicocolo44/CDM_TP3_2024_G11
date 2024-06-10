@@ -9,7 +9,6 @@
 #include <stdio.h>
 #define F_CPU 16000000UL
 #include <util/delay.h>
-#include "lcd.h"//asdasdasdsa
 #include "dht11.h"
 
 
@@ -26,43 +25,39 @@ void inicializar_sensor(){
 }
 
 uint8_t leer(uint8_t* res){
-	uint8_t i, checksum= 0, aux = 0, posAct = 0, numAct = 0;
-	DDRC |= (1 << PINC1); 
+	uint8_t i, checksum= 0, aux = 0, posAct = 0, numAct = 0, salidaAct = 0, salidaAnt = 0; 
+	DDRC |= (1 << PINC3);
 	inicializar_sensor();
-	_delay_us(50);
-	PORTC |= (1 << PINC1);
-	_delay_us(1);
-	PORTC &= ~(1 << PINC1);
+	while(salidaAct != 1){
+		salidaAct = (PINC & (1 << PINC0));
+	}
+	salidaAnt = 1;
 	for(i = 0; i<32; i++){
 		_delay_us(50);
-		aux |= ((PINC & (1 << PINC0)))<<(posAct);
-		PORTC |= (1 << PINC1);
-		_delay_us(1);
-		PORTC &= ~(1 << PINC1);
+		aux |= ((PINC & (1 << PINC0)))<<(7-posAct);
 		if(++posAct == 8){
 			res[numAct++] = aux;
 			aux = 0;
 			posAct = 0;
 		}
-		if(aux & (1 <<(i%8))){
-			_delay_us(69);
-		}else{
-			_delay_us(19);
+		while(!(salidaAct == 1 && salidaAnt == 0)){
+			salidaAnt = salidaAct;
+			salidaAct = (PINC & (1 << PINC0));
 		}
+		PORTC |= (1 << PINC3);
+		_delay_us(1);
+		PORTC &= ~(1 << PINC3);
+		salidaAnt = 1;
 	}
 	for(i = 0; i < 8; i++){
 		_delay_us(50);
-		checksum |= ((PINC & (1 << PINC0)))<<(i%8);
-		if(checksum & (1 <<(i%8))){
-			_delay_us(70);
-		}else{
-			_delay_us(30);
+		checksum |= ((PINC & (1 << PINC0)))<<(7-i);
+		while(!(salidaAct == 1 && salidaAnt == 0)){
+			salidaAnt = salidaAct;
+			salidaAct = (PINC & (1 << PINC0));
 		}
+		salidaAnt = 1;
 	}
 	aux = (res[0] + res[1] + res[2] + res[3]);
-	LCDclr();
-	LCDhome();
-	LCDescribeDato(res[2],3);
-	LCDescribeDato(checksum,3);
 	return (checksum == aux);
 }
