@@ -1,16 +1,9 @@
-/*
- * i2c.c
- *
- * Created: 9/6/2024 19:30:47
- *  Author: perei
- */ 
-
 #include "i2c.h"
 
 void i2c_init(void){
-	TWSR=0x00;		//set prescaler bits to zero
-	TWBR=152;		//SCL frequency is 50K for XTAL=16M
-	TWCR=0x04;		//enable the TWI module
+	TWSR=0x00;		//prescaler en 0
+	TWBR=152;		//valor para que la Fscl sea 50KHz con XTAL=16MHz
+	TWCR=0x04;		//Habilito el modo TWI
 }
 
 void i2c_start(void){		//Envia start y espera confirmacion
@@ -26,7 +19,7 @@ void i2c_write(uint8_t data){
 
 uint8_t i2c_read(uint8_t isLast){
 	/*
-		TWEN =1 y TWINT =1 para iniciar la recepción
+		TWEN=1 y TWINT =1 para iniciar la recepción
 		• Esperar activación del flag TWINT (reception complete) y leer el dato desde el TWDR
 	*/
 	if(isLast==0)	//Send ACK

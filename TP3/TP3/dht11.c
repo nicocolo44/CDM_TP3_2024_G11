@@ -1,9 +1,3 @@
-/*
- * dht11.c
- *
- * Created: 3/6/2024 14:12:15
- *  Author: Barcala
- */ 
 #include <avr/io.h>
 #include <stdlib.h>
 #include <stdio.h>

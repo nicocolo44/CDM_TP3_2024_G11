@@ -1,11 +1,3 @@
-/*
- * i2c.h
- *
- * Created: 9/6/2024 20:26:20
- *  Author: perei
- */ 
-
-
 #ifndef I2C_H_
 #define I2C_H_
 

@@ -1,11 +1,3 @@
-/*
- * rtc.h
- *
- * Created: 9/6/2024 20:36:19
- *  Author: perei
- */ 
-
-
 #ifndef RTC_H_
 #define RTC_H_
 
@@ -17,7 +9,6 @@
 #define C_Ds3231SecondRegAddress_U8 0x00	//defines the register address for the seconds value in the DS3231 RTC module
 #define C_Ds3231DaysRegAddress_U8 0x04
 	//defines the register address for the control register in the DS3231 RTC module
-//Everybody say gracias ChatGPT por las ultimas 2 direcciones!!!!
 
 #define MASK_SEC 0b01111111
 #define MASK_MIN 0b01111111
