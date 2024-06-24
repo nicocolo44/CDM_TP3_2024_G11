@@ -75,7 +75,7 @@ ISR(USART_RX_vect){
 	RX_Buffer=0;  // reseteo el buffer que guarda el dato leido
 }
 
-uint8_t obtenerMes(const char *mes) {
+uint8_t obtenerMes(const uint8_t *mes) {
 	if (strcmp(mes, "Jan") == 0) return 1;
 	if (strcmp(mes, "Feb") == 0) return 2;
 	if (strcmp(mes, "Mar") == 0) return 3;
@@ -94,11 +94,11 @@ uint8_t obtenerMes(const char *mes) {
 void obtenerFechaHoraCompilacion(rtc_t *hora){
 	uint16_t ano;
 	// _DATE_ y _TIME_ son macros predefinidos por el compilador
-	char date[] = __DATE__; // Formato: "Jun 10 2024"
-	char time[] = __TIME__; // Formato: "14:30:59"
+	uint8_t date[] = __DATE__; // Formato: "Jun 10 2024"
+	uint8_t time[] = __TIME__; // Formato: "14:30:59"
 
 	// Descomponer la fecha
-	char mes_str[4];
+	uint8_t mes_str[4];
 	sscanf(date, "%s %d %lu ", mes_str, &(hora->date), &ano);
 	(hora->year)= ano%100;
 	hora->month = obtenerMes(mes_str);
