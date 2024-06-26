@@ -20,7 +20,6 @@ void inicializar_sensor(){
 
 uint8_t leer(uint8_t* res){
 	uint8_t i, checksum= 0, aux = 0, posAct = 0, numAct = 0, salidaAct = 0, salidaAnt = 0;
-	DDRC |= (1 << PINC3);
 	inicializar_sensor();		//Se inicializa el sensor
 	while(salidaAct != 1){		//Se espera un flanco de subida (No se necesita chequear que el valor anterior sea 0 porque ya sabemos que lo és en el primer caso)
 		salidaAct = (PINC & (1 << PINC0));	//Pongo la salida actual en 1
@@ -38,9 +37,6 @@ uint8_t leer(uint8_t* res){
 			salidaAnt = salidaAct;
 			salidaAct = (PINC & (1 << PINC0));
 		}
-		PORTC |= (1 << PINC3);
-		_delay_us(1);
-		PORTC &= ~(1 << PINC3);
 		salidaAnt = 1;
 	}
 	for(i = 0; i < 8; i++){							//Repito procedimiento de arriba para el checksum
