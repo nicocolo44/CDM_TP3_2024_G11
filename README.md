@@ -24,5 +24,4 @@ Este proyecto es un ejercicio práctico que utiliza Microchip Studio y Proteus p
 4. Haz clic en el botón de `Play` en la parte inferior izquierda para iniciar la simulación.
 5. Si no se abre la terminal virtual al hacer clic en `Play`, entra en el apartado de `Debug` que se encuentra en la parte superior y selecciona `Terminal Virtual`.
 
-¡Y eso es todo! Ahora tu proyecto debería estar listo y funcionando.
 
