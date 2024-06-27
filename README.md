@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este proyecto es un ejercicio práctico que utiliza Microchip Studio y Proteus para configurar y simular un microcontrolador ATMEGA328P con un sensor DHT11 y una pantalla LCD.
+Este proyecto es un ejercicio práctico que utiliza Microchip Studio y Proteus para configurar y simular un microcontrolador ATMEGA328P con un sensor `DHT11`, el sensor `RTC` y la comunicación mediante el protocolo `I2C` y la `terminal serie` mediante el `UART`
 
 ## Instrucciones
 
